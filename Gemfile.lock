@@ -50,6 +50,12 @@ GEM
       nokogiri (>= 1.4.1)
       rubyzip (~> 1.0.0)
     bcrypt (3.1.7)
+    better_errors (2.0.0)
+      coderay (>= 1.0.0)
+      erubis (>= 2.6.6)
+      rack (>= 0.9.0)
+    binding_of_caller (0.7.2)
+      debug_inspector (>= 0.0.1)
     bootstrap-kaminari-views (0.0.3)
       kaminari (>= 0.13)
       rails (>= 3.1)
@@ -73,6 +79,7 @@ GEM
     connection_pool (2.0.0)
     d3-rails (3.4.4)
       railties (>= 3.1)
+    debug_inspector (0.0.2)
     devise (3.2.4)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -238,6 +245,8 @@ PLATFORMS
 DEPENDENCIES
   acts_as_xlsx
   axlsx
+  better_errors
+  binding_of_caller
   bootstrap-kaminari-views
   carrierwave
   coffee-rails (~> 3.2.1)
