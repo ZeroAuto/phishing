@@ -23,4 +23,4 @@ Gemfile.lock
 .DS_Store
 dump.rdb
 config/application.rb
-config/database.yml
+/config/database.yml
