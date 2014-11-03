@@ -25,11 +25,10 @@ gem 'jquery-rails'
 group :development do
 	gem 'better_errors'
 	gem 'binding_of_caller'
-	gem 'hirb'
 end
 
 # To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'bcrypt-ruby', '~> 3.0.0'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
@@ -111,3 +110,9 @@ gem 'mechanize'
 # Gem for xlsx creation
 gem 'acts_as_xlsx'
 gem 'axlsx'
+
+# Hirb for cleaner tables in IRB
+gem 'hirb'
+
+# Encryption
+gem 'attr_encrypted'
