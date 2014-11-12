@@ -11,8 +11,8 @@ end
 
 module PhishingFramework
   # Default website for reports stuff, must change to callback.
-  SITE_URL = "http://54.218.27.189"
-
+  SITE_URL = "https://54.218.27.189"
+  # SITE_URL = "http://54.218.27.189"
 
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
