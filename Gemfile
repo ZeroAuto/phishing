@@ -1,25 +1,16 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.13'
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+gem 'rails', '4.1.7'
 
 gem 'mysql2'
+gem 'sass-rails'
+gem 'coffee-rails'
 
+# See https://github.com/sstephenson/execjs#readme for more supported runtimes
+gem 'therubyracer', :platforms => :ruby
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'therubyracer', :platforms => :ruby
-
-  gem 'uglifier', '>= 1.0.3'
-end
-
+# core rails helpers
+gem 'uglifier'
 gem 'jquery-rails'
 
 # gem 'better_errors'
@@ -39,6 +30,7 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 
 # To use debugger
 # gem 'debugger'
+gem 'protected_attributes'
 
 # TO use devise for authentication
 gem 'devise'
@@ -96,7 +88,8 @@ gem 'jquery-datatables-rails'
 gem 'd3-rails'
 
 # pdf creation
-gem 'prawn'
+gem 'prawn', '~> 1.2.1'
+gem 'prawn-table', '~> 0.1.0'
 
 # email enumeration
 gem 'searchbing'
@@ -114,3 +107,20 @@ gem 'hirb'
 
 # Encryption
 gem 'attr_encrypted'
+
+# code syntax highlighter
+gem 'codemirror-rails'
+
+# our test suite
+gem "rspec-rails", :group => [:test, :development]
+group :test do
+  gem "factory_girl_rails"
+  gem "capybara"
+  gem "guard-rspec"
+  gem 'database_cleaner'
+  gem 'faker'
+end
+
+# ruby code style checker
+gem 'rubocop'
+
