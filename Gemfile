@@ -36,7 +36,7 @@ gem 'protected_attributes'
 gem 'devise'
 
 # For login tracking
-gem 'paper_trail', '>= 3.0.0.rc2'
+# gem 'paper_trail', '>= 3.0.0.rc2'
 
 # For background work (sending emails)
 gem 'sidekiq'
