@@ -124,3 +124,6 @@ end
 # ruby code style checker
 gem 'rubocop'
 
+# Delayed_Job for automating campaign launch
+gem 'delayed_job'
+
