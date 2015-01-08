@@ -125,5 +125,6 @@ end
 gem 'rubocop'
 
 # Delayed_Job for automating campaign launch
-gem 'delayed_job'
+# gem 'delayed_job'
+gem 'delayed_job_active_record'
 
