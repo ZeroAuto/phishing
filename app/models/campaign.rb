@@ -2,6 +2,10 @@ require 'fileutils'
 require 'zip'
 
 class Campaign < ActiveRecord::Base
+
+  PREVIEW = 0
+  ACTIVE = 1
+
   # relationships
   belongs_to :template
   has_one :campaign_settings, dependent: :destroy
@@ -292,6 +296,25 @@ class Campaign < ActiveRecord::Base
   def reload_apache
     restart_apache = GlobalSettings.first.command_apache_restart
     system("#{restart_apache} > /dev/null")
+  end
+
+  def self.launch(camp_id, meth)
+    @campaign = Campaign.find(camp_id)
+    @blast = @campaign.blasts.create(test: false)
+    @victims = Victim.where(campaign_id: @campaign.id, archive: false)
+    
+    if GlobalSettings.asynchronous?
+      @victims.each do |target|
+        PhishingFrenzyMailer.delay.phish(@campaign.id, target, @blast.id, meth)
+        target.update_attribute(:sent, true)
+      end
+    else
+      @victims.each do |target|
+        PhishingFrenzyMailer.phish(@campaign.id, target, @blast.id, meth)
+        target.update_attribute(:sent, true)
+      end
+    end
+    
   end
 
 end
