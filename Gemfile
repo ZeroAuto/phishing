@@ -13,9 +13,6 @@ gem 'therubyracer', :platforms => :ruby
 gem 'uglifier'
 gem 'jquery-rails'
 
-gem 'better_errors'
-gem 'binding_of_caller'
-
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -102,9 +99,6 @@ gem 'mechanize'
 gem 'acts_as_xlsx'
 gem 'axlsx'
 
-# Hirb for cleaner tables in IRB
-gem 'hirb'
-
 # Encryption
 gem 'attr_encrypted'
 
@@ -124,3 +118,9 @@ end
 # ruby code style checker
 gem 'rubocop'
 
+# Better Errors and Hirb for debugging
+group :development do
+	gem 'better_errors'
+	gem 'binding_of_caller'
+	gem 'hirb'
+end
