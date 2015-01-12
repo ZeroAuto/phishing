@@ -124,3 +124,6 @@ group :development do
 	gem 'binding_of_caller'
 	gem 'hirb'
 end
+
+# For running delayed_job as daemon process
+gem 'daemons'
