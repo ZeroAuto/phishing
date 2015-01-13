@@ -298,23 +298,29 @@ class Campaign < ActiveRecord::Base
     system("#{restart_apache} > /dev/null")
   end
 
-  def self.launch(camp_id, meth)
-    @campaign = Campaign.find(camp_id)
-    @blast = @campaign.blasts.create(test: false)
-    @victims = Victim.where(campaign_id: @campaign.id, archive: false)
-    
-    if GlobalSettings.asynchronous?
-      @victims.each do |target|
-        PhishingFrenzyMailer.delay.phish(@campaign.id, target, @blast.id, meth)
-        target.update_attribute(:sent, true)
-      end
-    else
-      @victims.each do |target|
-        PhishingFrenzyMailer.phish(@campaign.id, target, @blast.id, meth)
-        target.update_attribute(:sent, true)
+  def self.when_to_run
+  end
+
+  class << self
+    def launch(camp_id, meth)
+      @campaign = Campaign.find(camp_id)
+      @blast = @campaign.blasts.create(test: false)
+      @victims = Victim.where(campaign_id: @campaign.id, archive: false)
+      
+      if GlobalSettings.asynchronous?
+        @victims.each do |target|
+          PhishingFrenzyMailer.delay.phish(@campaign.id, target, @blast.id, meth)
+          target.update_attribute(:sent, true)
+        end
+      else
+        @victims.each do |target|
+          PhishingFrenzyMailer.phish(@campaign.id, target, @blast.id, meth)
+          target.update_attribute(:sent, true)
+        end
       end
     end
-    
+
+    handle_asynchronously :launch, :run_at => Proc.new { 2.minutes.from_now }
   end
 
 end
