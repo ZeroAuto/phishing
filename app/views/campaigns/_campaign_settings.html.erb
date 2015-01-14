@@ -48,6 +48,30 @@
 
       <div class="row top-buffer">
         <div class="col-xs-3">
+          <p>Delay</p>
+        </div>
+        <div class="col-xs-1">
+          <span class="glyphicon glyphicon-question-sign" title="Delay a campaign to launch at a later time."></span>
+        </div>
+        <div class="col-xs-8">
+          <p><%= f.check_box(:delay_launch) %></p>
+        </div>
+      </div>
+
+      <div class="row top-buffer">
+        <div class="col-xs-3">
+          <p>Launch Time</p>
+        </div>
+        <div class="col-xs-1">
+          <span class="glyphicon glyphicon-question-sign" title="Delay a campaign to launch at a later time."></span>
+        </div>
+        <div class="col-xs-8">
+          <p><%= f.datetime_select(:launch_date) %></p>
+        </div>
+      </div>
+
+      <div class="row top-buffer">
+        <div class="col-xs-3">
           <p>Test Target</p>
         </div>
         <div class="col-xs-1">
