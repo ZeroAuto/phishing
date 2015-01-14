@@ -298,9 +298,6 @@ class Campaign < ActiveRecord::Base
     system("#{restart_apache} > /dev/null")
   end
 
-  def self.when_to_run
-  end
-
   class << self
     def launch(camp_id, meth)
       @campaign = Campaign.find(camp_id)
