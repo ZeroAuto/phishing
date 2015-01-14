@@ -312,6 +312,11 @@ class Campaign < ActiveRecord::Base
           PhishingFrenzyMailer.delay.phish(@campaign.id, target, @blast.id, meth)
           target.update_attribute(:sent, true)
         end
+      elsif @campaign.launch_delay == true
+        @victims.each do |target|
+          PhishingFrenzyMailer.delay_until(launch_date).phish(@campaign.id, target, @blast.id, meth)
+          target.update_attribute(:sent, true)
+        end
       else
         @victims.each do |target|
           PhishingFrenzyMailer.phish(@campaign.id, target, @blast.id, meth)
@@ -320,7 +325,6 @@ class Campaign < ActiveRecord::Base
       end
     end
 
-    handle_asynchronously :launch, :run_at => Proc.new { 2.minutes.from_now }
   end
 
 end
