@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(version: 20150109165300) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "test_email"
-    t.datetime "lauch_date"
+    t.datetime "launch_date"
     t.boolean  "delay_launch"
   end
 
