@@ -102,7 +102,7 @@ ActiveRecord::Schema.define(version: 20150109165300) do
     t.datetime "updated_at"
     t.string   "test_email"
     t.datetime "launch_date"
-    t.boolean  "delay_launch"
+    t.boolean  "delay_launch"  default: false
   end
 
   add_index "campaigns", ["template_id"], name: "index_campaigns_on_template_id", using: :btree
