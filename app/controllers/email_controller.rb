@@ -70,7 +70,7 @@ class EmailController < ApplicationController
       return false
     end
     # @blast = @campaign.blasts.create(test: false)
-    victims = Victim.where("campaign_id = ? and archive = ?", params[:id], false)
+    # victims = Victim.where("campaign_id = ? and archive = ?", params[:id], false)
     if GlobalSettings.asynchronous?
       begin
         Campaign.launch_phish(@campaign.id, ACTIVE)
