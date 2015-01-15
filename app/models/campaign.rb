@@ -304,7 +304,7 @@ class Campaign < ActiveRecord::Base
       @blast = @campaign.blasts.create(test: false)
       @victims = Victim.where(campaign_id: @campaign.id, archive: false)
 
-      if @campaign.launch_delay == true && @campaign.launch_date.to_i > Time.now
+      if @campaign.launch_delay == true && @campaign.launch_date.to_i > Time.now.to_i
         @launch_time = @campaign.launch_date.to_i - Time.now.to_i
       end
       
