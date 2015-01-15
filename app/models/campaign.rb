@@ -304,7 +304,7 @@ class Campaign < ActiveRecord::Base
       @blast = @campaign.blasts.create(test: false)
       @victims = Victim.where(campaign_id: @campaign.id, archive: false)
 
-      if @campaign.launch_delay == true && @campaign.launch_date.to_i > Time.now.to_i
+      if @campaign.delay_launch == true && @campaign.launch_date.to_i > Time.now.to_i
         @launch_time = @campaign.launch_date.to_i - Time.now.to_i
       end
       
@@ -313,7 +313,7 @@ class Campaign < ActiveRecord::Base
           PhishingFrenzyMailer.delay.phish(@campaign.id, target, @blast.id, meth)
           target.update_attribute(:sent, true)
         end
-      elsif @campaign.launch_delay == true && @launch_time > Time.now.to_i
+      elsif @campaign.delay_launch == true && @launch_time > Time.now.to_i
         @victims.each do |target|
           PhishingFrenzyMailer.delay_for(@launch_time.seconds).phish(@campaign.id, target, @blast.id, meth)
           target.update_attribute(:sent, true)
