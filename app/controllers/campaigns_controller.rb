@@ -46,6 +46,9 @@ class CampaignsController < ApplicationController
 
 	def update
 		@campaign = Campaign.find(params[:id])
+		if @campaign.delay_launch == true && @campaign.launch_date.nil?
+			flash[:error] = "A launch time is required."
+		end
 		if @campaign.update_attributes(params[:campaign])
 			redirect_to @campaign, notice: "Campaign Updated"
 		else
