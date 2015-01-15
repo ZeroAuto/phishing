@@ -305,7 +305,7 @@ class Campaign < ActiveRecord::Base
       @victims = Victim.where(campaign_id: @campaign.id, archive: false)
 
       if @campaign.launch_delay == true && @campaign.launch_date.to_i > Time.now
-        @launch_time = @campaign.launch_date.to_i - Time.now
+        @launch_time = @campaign.launch_date.to_i - Time.now.to_i
       end
       
       if GlobalSettings.asynchronous?
