@@ -299,7 +299,7 @@ class Campaign < ActiveRecord::Base
   end
 
   class << self
-    def launch(camp_id, meth)
+    def launch_phish(camp_id, meth)
       @campaign = Campaign.find(camp_id)
       @blast = @campaign.blasts.create(test: false)
       @victims = Victim.where(campaign_id: @campaign.id, archive: false)
