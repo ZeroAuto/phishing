@@ -303,15 +303,19 @@ class Campaign < ActiveRecord::Base
       @campaign = Campaign.find(camp_id)
       @blast = @campaign.blasts.create(test: false)
       @victims = Victim.where(campaign_id: @campaign.id, archive: false)
+
+      if @campaign.launch_delay == true && @campaign.launch_date.to_i > Time.now
+        @launch_time = @campaign.launch_date.to_i - Time.now
+      end
       
       if GlobalSettings.asynchronous?
         @victims.each do |target|
           PhishingFrenzyMailer.delay.phish(@campaign.id, target, @blast.id, meth)
           target.update_attribute(:sent, true)
         end
-      elsif @campaign.launch_delay == true
+      elsif @campaign.launch_delay == true && @launch_time > Time.now.to_i
         @victims.each do |target|
-          PhishingFrenzyMailer.delay_until(launch_date).phish(@campaign.id, target, @blast.id, meth)
+          PhishingFrenzyMailer.delay_for(@launch_time.seconds).phish(@campaign.id, target, @blast.id, meth)
           target.update_attribute(:sent, true)
         end
       else
