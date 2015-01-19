@@ -65,20 +65,29 @@ class EmailController < ApplicationController
   def launch
     @campaign = Campaign.find(params[:id])
     @campaign.update_attributes(active: true, email_sent: true)
+    if @campaign.delay_launch == true
+      if @campaign.launch_date.to_i > Time.now.to_i
+        @launch_time = @campaign.launch_date.to_i - Time.now.to_i
+        @delayed = true
+      else
+        @delayed = false
+      end
+    else
+      @delayed = false
+    end
     if @campaign.errors.present?
       render template: "/campaigns/show"
       return false
     end
-    # @blast = @campaign.blasts.create(test: false)
-    # victims = Victim.where("campaign_id = ? and archive = ?", params[:id], false)
     if GlobalSettings.asynchronous?
       begin
-        Campaign.launch_phish(@campaign.id, ACTIVE)
-        # victims.each do |target|
-        #   PhishingFrenzyMailer.delay.phish(@campaign.id, target, @blast.id, ACTIVE)
-        #   target.update_attribute(:sent, true)
-        # end
-        flash[:notice] = "Campaign blast launched"
+        if @delayed == true
+          Campaign.delay_for(@launch_time.seconds).launch_phish(@campaign.id, ACTIVE)
+          flash[:notice] = "Campaign will be launched in #{@launch_time} seconds"
+        else
+          Campaign.launch_phish(@campaign.id, ACTIVE)
+          flash[:notice] = "Campaign blast launched"
+        end        
       rescue Redis::CannotConnectError => e
         flash[:error] = "Sidekiq cannot connect to Redis. Emails were not queued."
       rescue::NoMethodError
@@ -88,12 +97,13 @@ class EmailController < ApplicationController
       end
     else
       begin
-        Campaign.launch_phish(@campaign.id, ACTIVE)
-        # victims.each do |target|
-        #   PhishingFrenzyMailer.phish(@campaign.id, target, @blast, ACTIVE)
-        #   target.update_attribute(:sent, true)
-        # end
-        flash[:notice] = "Campaign blast launched"
+        if @delayed == true
+          Campaign.delay_for(@launch_time.seconds).launch_phish(@campaign.id, ACTIVE)
+          flash[:notice] = "Campaign will be launched in #{@launch_time} seconds"
+        else
+          Campaign.launch_phish(@campaign.id, ACTIVE)
+          flash[:notice] = "Campaign blast launched"
+        end
       rescue::NoMethodError
         flash[:error] = "Template is missing an email file, upload and create new email"
       rescue => e
