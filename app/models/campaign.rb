@@ -313,11 +313,6 @@ class Campaign < ActiveRecord::Base
           PhishingFrenzyMailer.delay.phish(@campaign.id, target, @blast.id, meth)
           target.update_attribute(:sent, true)
         end
-      elsif @campaign.delay_launch == true && @launch_time.to_i > Time.now.to_i
-        @victims.each do |target|
-          PhishingFrenzyMailer.delay_for(@launch_time.seconds).phish(@campaign.id, target, @blast.id, meth)
-          target.update_attribute(:sent, true)
-        end
       else
         @victims.each do |target|
           PhishingFrenzyMailer.phish(@campaign.id, target, @blast.id, meth)
