@@ -2,10 +2,6 @@ require 'fileutils'
 require 'zip'
 
 class Campaign < ActiveRecord::Base
-
-  PREVIEW = 0
-  ACTIVE = 1
-
   # relationships
   belongs_to :template
   has_one :campaign_settings, dependent: :destroy
@@ -23,7 +19,7 @@ class Campaign < ActiveRecord::Base
   accepts_nested_attributes_for :ssl, allow_destroy: true#, :reject_if => proc {|attributes| attributes['filename'].blank?}
 
   # allow mass asignment
-  attr_accessible :name, :description, :active, :emails, :scope, :template_id, :test_email, :ssl_attributes,:email_sent, :email_settings_attributes, :campaign_settings_attributes, :launch_date, :delay_launch
+  attr_accessible :name, :description, :active, :emails, :scope, :template_id, :test_email, :ssl_attributes, :email_sent, :email_settings_attributes, :campaign_settings_attributes, :launch_date, :delay_launch
 
   # named scopes
   scope :active, -> { where(active: true) }
@@ -303,7 +299,7 @@ class Campaign < ActiveRecord::Base
       @campaign = Campaign.find(camp_id)
       @blast = @campaign.blasts.create(test: false)
       @victims = Victim.where(campaign_id: @campaign.id, archive: false)
-      
+
       if GlobalSettings.asynchronous?
         @victims.each do |target|
           PhishingFrenzyMailer.delay.phish(@campaign.id, target, @blast.id, meth)
@@ -316,7 +312,6 @@ class Campaign < ActiveRecord::Base
         end
       end
     end
-
   end
 
 end
