@@ -123,6 +123,7 @@ group :development do
 	gem 'better_errors'
 	gem 'binding_of_caller'
 	gem 'hirb'
+	gem 'quiet_assets'
 end
 
 # For running delayed_job as daemon process
