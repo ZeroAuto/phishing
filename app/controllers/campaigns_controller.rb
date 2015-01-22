@@ -111,4 +111,10 @@ class CampaignsController < ApplicationController
 			format.js
 		end
 	end
+	
+	def campaign_time_zone
+		@campaign_time_zone = Campaign.find(params[:id]).time_zone
+	end
+
+	helper_method :campaign_time_zone
 end
