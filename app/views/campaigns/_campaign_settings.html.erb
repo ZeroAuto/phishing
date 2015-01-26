@@ -78,7 +78,13 @@
           <span class="glyphicon glyphicon-question-sign" title="Delay a campaign to launch at a later time."></span>
         </div>
         <div class="col-xs-8">
-          <p><%= f.datetime_select(:launch_date) %></p>
+          <% if @campaign.time_zone.present? %>
+            <% Time.use_zone(@campaign.time_zone) do %>
+              <p><%= f.datetime_select(:launch_date) %></p>
+            <% end %>
+          <% else %>
+            <p><%= f.datetime_select(:launch_date) %></p>
+          <% end %>
         </div>
       </div>
 

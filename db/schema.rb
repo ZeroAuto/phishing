@@ -102,7 +102,7 @@ ActiveRecord::Schema.define(version: 20150122155137) do
     t.datetime "updated_at"
     t.string   "test_email"
     t.datetime "launch_date"
-    t.boolean  "delay_launch", default: false
+    t.boolean  "delay_launch"
     t.string   "time_zone"
   end
 
