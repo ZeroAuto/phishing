@@ -25,6 +25,14 @@ class CampaignsController < ApplicationController
 		unless @template
 			flash.now[:warning] = "No template has been selected for this campaign"
 		end
+		if @campaign.launched == true 
+			if @campaign.launch_date.to_i > Time.now.to_i
+	      @launch_time = @campaign.launch_date.to_i - Time.now.to_i
+	      @days, @seconds_after_days = @launch_time.divmod(86400)
+	      @hours, @seconds_after_hours = @seconds_after_days.divmod(3600)
+	      @minutes, @seconds_after_minutes = @seconds_after_hours.divmod(60)
+	    end
+		end
 	end
 
 	def new

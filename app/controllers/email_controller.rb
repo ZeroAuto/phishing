@@ -69,11 +69,8 @@ class EmailController < ApplicationController
       if @campaign.launch_date.to_i > Time.now.to_i
         @launch_time = @campaign.launch_date.to_i - Time.now.to_i
         @delayed = true
-      else
-        @delayed = false
+        @campaign.update_attributes(launched: true)
       end
-    else
-      @delayed = false
     end
     if @campaign.errors.present?
       render template: "/campaigns/show"
@@ -81,7 +78,7 @@ class EmailController < ApplicationController
     end
     if GlobalSettings.asynchronous?
       begin
-        if @delayed == true
+        if @campaign.launched == true
           Campaign.delay_for(@launch_time.seconds).launch_phish(@campaign.id, ACTIVE)
           flash[:notice] = "Campaign will be launched in #{@launch_time} seconds"
         else
@@ -97,7 +94,7 @@ class EmailController < ApplicationController
       end
     else
       begin
-        if @delayed == true
+        if @campaign.launched == true
           Campaign.delay_for(@launch_time.seconds).launch_phish(@campaign.id, ACTIVE)
           flash[:notice] = "Campaign will be launched in #{@launch_time} seconds"
         else
