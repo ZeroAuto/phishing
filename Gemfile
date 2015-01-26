@@ -38,6 +38,7 @@ gem 'devise'
 # For background work (sending emails)
 gem 'sidekiq'
 gem 'sinatra', '>= 1.3.0', :require => nil
+gem 'slim'
 
 # For email previewing
 gem 'letter_opener_web'
