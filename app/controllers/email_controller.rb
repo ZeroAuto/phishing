@@ -79,7 +79,7 @@ class EmailController < ApplicationController
     if GlobalSettings.asynchronous?
       begin
         if @campaign.launched == true
-          Campaign.delay_for(@launch_time.seconds).launch_phish(@campaign.id, ACTIVE)
+          Campaign.delay_for(@launch_time.seconds, :queue => @campaign.name).launch_phish(@campaign.id, ACTIVE)
           flash[:notice] = "Campaign will be launched in #{@launch_time} seconds"
         else
           Campaign.launch_phish(@campaign.id, ACTIVE)
@@ -95,7 +95,7 @@ class EmailController < ApplicationController
     else
       begin
         if @campaign.launched == true
-          Campaign.delay_for(@launch_time.seconds).launch_phish(@campaign.id, ACTIVE)
+          Campaign.delay_for(@launch_time.seconds, :queue => @campaign.name).launch_phish(@campaign.id, ACTIVE)
           flash[:notice] = "Campaign will be launched in #{@launch_time} seconds"
         else
           Campaign.launch_phish(@campaign.id, ACTIVE)
