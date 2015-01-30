@@ -22,6 +22,7 @@ class CampaignsController < ApplicationController
 		@campaign = Campaign.includes(:campaign_settings, :email_settings).find(params[:id])
 		@victims = Victim.where("campaign_id = ? and archive = ?", params[:id], false)
 		@template = @campaign.template
+		@scheduled = Sidekiq::ScheduledSet.new
 		unless @template
 			flash.now[:warning] = "No template has been selected for this campaign"
 		end
