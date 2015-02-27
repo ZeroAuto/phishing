@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150126170210) do
+ActiveRecord::Schema.define(version: 20150227223403) do
 
   create_table "admins", force: true do |t|
     t.string   "name"
@@ -94,17 +94,17 @@ ActiveRecord::Schema.define(version: 20150126170210) do
     t.integer  "template_id"
     t.string   "name"
     t.string   "description"
-    t.boolean  "active",       default: false
+    t.boolean  "active",          default: false
     t.integer  "scope"
     t.text     "emails"
-    t.boolean  "email_sent",   default: false
+    t.boolean  "email_sent",      default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "test_email"
     t.datetime "launch_date"
-    t.boolean  "delay_launch", default: false
+    t.boolean  "delay_launch",    default: false
     t.string   "time_zone"
-    t.boolean  "launched",     default: false
+    t.datetime "stand_down_time"
   end
 
   add_index "campaigns", ["template_id"], name: "index_campaigns_on_template_id", using: :btree
