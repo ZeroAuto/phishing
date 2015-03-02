@@ -57,38 +57,41 @@ class CampaignsController < ApplicationController
 
 	def update
 		@campaign = Campaign.find(params[:id])
-		if @campaign.delay_launch == true
-			if @campaign.launch_date.nil?
-				flash[:error] = "A launch time is required."
-			elsif @campaign.launch_date.to_i < Time.now.to_i
-				flash[:error] = "The campaign launch time has already passed."
-			else
-				launch_delay = @campaign.launch_date.to_i - Time.now.to_i
-				if Global.asynchronous?
-					begin
-						Campaign.delay_for(launch_delay.seconds).launch_phish(@campaign.id, ACTIVE)
-						flash[:notice] = "Campaign will be launched in #{launch_delay} seconds"
-					rescue Redis::CannotConnectError => e
-		        flash[:error] = "Sidekiq cannot connect to Redis. Emails were not queued."
-		      rescue::NoMethodError
-		        flash[:error] = "Template is missing an email file, upload and create new email"
-		      rescue => e
-		        flash[:error] = "Generic Template Issue: #{e}"
-		      end
-				else
-					begin
-						Campaign.delay_for(launch_delay.seconds).launch_phish(@campaign.id, ACTIVE)
-						flash[:notice] = "Campaign will be launched in #{launch_delay} seconds"
-					rescue::NoMethodError
-		        flash[:error] = "Template is missing an email file, upload and create new email"
-		      rescue => e
-		        flash[:error] = "Generic Template Issue: #{e}"
-		      end
-				end
-			end
-		end
 		if @campaign.update_attributes(params[:campaign])
-			redirect_to @campaign, notice: "Campaign Updated"
+			if @campaign.delay_launch == true
+				if @campaign.launch_date.nil?
+					flash[:error] = "A launch time is required."
+				elsif @campaign.launch_date.to_i < Time.now.to_i
+					flash[:error] = "The campaign launch time has already passed."
+				else
+					launch_delay = @campaign.launch_date.to_i - Time.now.to_i
+					if GlobalSettings.asynchronous?
+						begin
+							Campaign.delay_for(launch_delay.seconds).launch_phish(@campaign.id, ACTIVE)
+							flash[:notice] = "Campaign will be launched in #{launch_delay} seconds"
+						rescue Redis::CannotConnectError => e
+			        flash[:error] = "Sidekiq cannot connect to Redis. Emails were not queued."
+			      rescue::NoMethodError
+			        flash[:error] = "NoMethodError check error logs"
+			      rescue => e
+			        flash[:error] = "Generic Template Issue: #{e}"
+			      end
+					else
+						begin
+							Campaign.delay_for(launch_delay.seconds).launch_phish(@campaign.id, ACTIVE)
+							flash[:notice] = "Campaign will be launched in #{launch_delay} seconds"
+						rescue::NoMethodError
+			        flash[:error] = "NoMethodError check error logs"
+			      rescue => e
+			        flash[:error] = "Generic Template Issue: #{e}"
+			      end
+					end
+				end
+				redirect_to @campaign
+			else
+				redirect_to @campaign, notice: "Campaign Updated"
+			end
+
 		else
 			@templates = Template.all
 			render('show')
