@@ -18,7 +18,7 @@ class EmailController < ApplicationController
       rescue Redis::CannotConnectError => e
         flash[:error] = "Sidekiq cannot connect to Redis. Emails were not queued."
       rescue::NoMethodError
-        flash[:error] = "Template is missing an email file, upload and create new email"
+        flash[:error] = "NoMethodError check error logs"
       rescue => e
         flash[:error] = "Template Issue: #{e}"
       end
@@ -27,7 +27,7 @@ class EmailController < ApplicationController
         PhishingFrenzyMailer.phish(@campaign.id, @campaign.test_victim.email_address, @blast.id, PREVIEW)
         flash[:notice] = "Campaign test email available for preview"
       rescue::NoMethodError
-        flash[:error] = "Template is missing an email file, upload and create new email"
+        flash[:error] = "NoMethodError check error logs"
       rescue => e
         flash[:error] = "Template Issue: #{e}"
       end
@@ -45,7 +45,7 @@ class EmailController < ApplicationController
       rescue Redis::CannotConnectError => e
         flash[:error] = "Sidekiq cannot connect to Redis. Emails were not queued."
       rescue::NoMethodError
-        flash[:error] = "Template is missing an email file, upload and create new email"
+        flash[:error] = "NoMethodError check error logs"
       rescue => e
         flash[:error] = "Generic Template Issue: #{e}"
       end
@@ -54,7 +54,7 @@ class EmailController < ApplicationController
         PhishingFrenzyMailer.phish(@campaign.id, @campaign.test_victim.email_address, @blast.id, ACTIVE)
         flash[:notice] = "Campaign test email sent"
       rescue::NoMethodError
-        flash[:error] = "Template is missing an email file, upload and create new email"
+        flash[:error] = "NoMethodError check error logs"
       rescue => e
         flash[:error] = "Generic Template Issue: #{e}"
       end
@@ -76,7 +76,7 @@ class EmailController < ApplicationController
       rescue Redis::CannotConnectError => e
         flash[:error] = "Sidekiq cannot connect to Redis. Emails were not queued."
       rescue::NoMethodError
-        flash[:error] = "Template is missing an email file, upload and create new email"
+        flash[:error] = "NoMethodError check error logs"
       rescue => e
         flash[:error] = "Generic Template Issue: #{e}"
       end
@@ -85,7 +85,7 @@ class EmailController < ApplicationController
         Campaign.launch_phish(@campaign.id, ACTIVE)
         flash[:notice] = "Campaign blast launched"
       rescue::NoMethodError
-        flash[:error] = "Template is missing an email file, upload and create new email"
+        flash[:error] = "NoMethodError check error logs"
       rescue => e
         flash[:error] = "Generic Template Issue: #{e}"
       end
