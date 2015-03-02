@@ -1,4 +1,6 @@
 class CampaignsController < ApplicationController
+	PREVIEW = 0
+	ACTIVE = 1
 
 	include ActionView::Helpers::JavaScriptHelper # to be able to use escape_javascript
 	
@@ -55,8 +57,16 @@ class CampaignsController < ApplicationController
 
 	def update
 		@campaign = Campaign.find(params[:id])
-		if @campaign.delay_launch == true && @campaign.launch_date.nil?
-			flash[:error] = "A launch time is required."
+		if @campaign.delay_launch == true
+			if @campaign.launch_date.nil?
+				flash[:error] = "A launch time is required."
+			elsif @campaign.launch_date.to_i < Time.now.to_i
+				flash[:error] = "The campaign launch time has already passed."
+			else
+				x = @campaign.launch_date.to_i - Time.now.to_i
+				Campaign.delay_for(x).launch_phish(@campaign.id, 1)
+				flash[:notice] = "Campaign will be launched in #{x} seconds"
+			end
 		end
 		if @campaign.update_attributes(params[:campaign])
 			redirect_to @campaign, notice: "Campaign Updated"
