@@ -65,29 +65,14 @@ class EmailController < ApplicationController
   def launch
     @campaign = Campaign.find(params[:id])
     @campaign.update_attributes(active: true, email_sent: true)
-    if @campaign.delay_launch == true
-      if @campaign.launch_date.to_i > Time.now.to_i
-        @launch_time = @campaign.launch_date.to_i - Time.now.to_i
-        @delayed = true
-      else
-        @delayed = false
-      end
-    else
-      @delayed = false
-    end
     if @campaign.errors.present?
       render template: "/campaigns/show"
       return false
     end
     if GlobalSettings.asynchronous?
       begin
-        if @delayed == true
-          Campaign.delay_for(@launch_time.seconds).launch_phish(@campaign.id, ACTIVE)
-          flash[:notice] = "Campaign will be launched in #{@launch_time} seconds"
-        else
-          Campaign.launch_phish(@campaign.id, ACTIVE)
-          flash[:notice] = "Campaign blast launched"
-        end
+        Campaign.launch_phish(@campaign.id, ACTIVE)
+        flash[:notice] = "Campaign blast launched"
       rescue Redis::CannotConnectError => e
         flash[:error] = "Sidekiq cannot connect to Redis. Emails were not queued."
       rescue::NoMethodError
@@ -97,13 +82,8 @@ class EmailController < ApplicationController
       end
     else
       begin
-        if @delayed == true
-          Campaign.delay_for(@launch_time.seconds).launch_phish(@campaign.id, ACTIVE)
-          flash[:notice] = "Campaign will be launched in #{@launch_time} seconds"
-        else
-          Campaign.launch_phish(@campaign.id, ACTIVE)
-          flash[:notice] = "Campaign blast launched"
-        end
+        Campaign.launch_phish(@campaign.id, ACTIVE)
+        flash[:notice] = "Campaign blast launched"
       rescue::NoMethodError
         flash[:error] = "Template is missing an email file, upload and create new email"
       rescue => e
