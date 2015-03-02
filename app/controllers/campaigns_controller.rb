@@ -85,9 +85,6 @@ class CampaignsController < ApplicationController
 		        flash[:error] = "Generic Template Issue: #{e}"
 		      end
 				end
-				# x = @campaign.launch_date.to_i - Time.now.to_i
-				# Campaign.delay_for(x).launch_phish(@campaign.id, 1)
-				# flash[:notice] = "Campaign will be launched in #{x} seconds"
 			end
 		end
 		if @campaign.update_attributes(params[:campaign])
