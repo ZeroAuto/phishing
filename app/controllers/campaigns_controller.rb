@@ -65,10 +65,13 @@ class CampaignsController < ApplicationController
 					flash[:error] = "The campaign launch time has already passed."
 				else
 					launch_delay = @campaign.launch_date.to_i - Time.now.to_i
+		      days, seconds_after_days = launch_delay.divmod(86400)
+		      hours, seconds_after_hours = seconds_after_days.divmod(3600)
+		      minutes, seconds_after_minutes = seconds_after_hours.divmod(60)
 					if GlobalSettings.asynchronous?
 						begin
 							Campaign.delay_for(launch_delay.seconds).launch_phish(@campaign.id, ACTIVE)
-							flash[:notice] = "Campaign will be launched in #{launch_delay} seconds"
+							flash[:notice] = "Campaign will be launched in #{days} days, #{hours} hours, #{minutes} minutes and #{seconds_after_minutes} seconds"
 						rescue Redis::CannotConnectError => e
 			        flash[:error] = "Sidekiq cannot connect to Redis. Emails were not queued."
 			      rescue::NoMethodError
@@ -79,7 +82,7 @@ class CampaignsController < ApplicationController
 					else
 						begin
 							Campaign.delay_for(launch_delay.seconds).launch_phish(@campaign.id, ACTIVE)
-							flash[:notice] = "Campaign will be launched in #{launch_delay} seconds"
+							flash[:notice] = "Campaign will be launched in #{days} days, #{hours} hours, #{minutes} minutes and #{seconds_after_minutes} seconds"
 						rescue::NoMethodError
 			        flash[:error] = "NoMethodError check error logs"
 			      rescue => e
