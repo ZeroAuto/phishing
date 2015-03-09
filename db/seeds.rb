@@ -12,12 +12,30 @@ end
 # create admin account with default password if it does not exist
 admin = Admin.find_by(username: "admin")
 unless admin.present?
-	Admin.create(
-		username: "admin",
-		name: "admin",
-		password: "Funt1me!",
-		password_confirmation: "Funt1me!",
-		email: "admin@phishingfrenzy.local",
-		approved: true
-	)
+	admins = Admin.create([
+		{
+			username: "clay",
+			name: "Clayton Gouard",
+			password: "0$*CqTG$4QqiJ!",
+			password_confirmation: "0$*CqTG$4QqiJ!",
+			email: "clayton.gouard@cynergistek.com",
+			approved: true
+		},
+		{
+			username: "dustin",
+			name: "Dustin Jones",
+			password: "2D*5ip4P!YYM0",
+			password_confirmation: "2D*5ip4P!YYM0",
+			email: "dustin.jones@cynergistek.com",
+			approved: true
+		},
+		{
+			username: "admin",
+			name: "Michael Cooley",
+			password: "allmyfriends",
+			password_confirmation: "allmyfriends",
+			email: "michael.cooley@cynergsitek.com",
+			approved:true
+		}
+	])
 end
