@@ -48,18 +48,6 @@
 
       <div class="row top-buffer">
         <div class="col-xs-3">
-          <p>Timezone</p>
-        </div>
-        <div class="col-xs-1">
-          <span class="glyphicon glyphicon-question-sign" title="Delay a campaign to launch at a later time."></span>
-        </div>
-        <div class="col-xs-8">
-          <p><%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones %></p>
-        </div>
-      </div>
-
-      <div class="row top-buffer">
-        <div class="col-xs-3">
           <p>Delay</p>
         </div>
         <div class="col-xs-1">
@@ -78,13 +66,7 @@
           <span class="glyphicon glyphicon-question-sign" title="Delay a campaign to launch at a later time."></span>
         </div>
         <div class="col-xs-8">
-          <% if @campaign.time_zone.present? %>
-            <% Time.use_zone(@campaign.time_zone) do %>
-              <p><%= f.datetime_select(:launch_date) %></p>
-            <% end %>
-          <% else %>
-            <p><%= f.datetime_select(:launch_date) %></p>
-          <% end %>
+          <p><%= f.datetime_select(:launch_date) %></p>
         </div>
       </div>
 

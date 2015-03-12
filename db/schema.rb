@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150227223403) do
+ActiveRecord::Schema.define(version: 20150312211455) do
 
   create_table "admins", force: true do |t|
     t.string   "name"
@@ -103,7 +103,6 @@ ActiveRecord::Schema.define(version: 20150227223403) do
     t.string   "test_email"
     t.datetime "launch_date"
     t.boolean  "delay_launch",    default: false
-    t.string   "time_zone"
     t.datetime "stand_down_time"
   end
 
