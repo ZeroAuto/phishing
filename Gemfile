@@ -129,3 +129,5 @@ end
 
 # For running delayed_job as daemon process
 gem 'daemons'
+
+gem 'roo'
