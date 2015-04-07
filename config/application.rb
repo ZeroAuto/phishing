@@ -1,12 +1,14 @@
 require File.expand_path('../boot', __FILE__)
 
+require 'csv'
+require 'iconv'
 require 'rails/all'
 
 Bundler.require(:default, Rails.env)
 
 module PhishingFramework
   # Default website for reports stuff, must change to callback.
-  SITE_URL = "http://54.218.27.189"
+  SITE_URL = "http://52.11.207.239"
   # SITE_URL = "http://54.218.27.189"
 
   class Application < Rails::Application
