@@ -28,7 +28,7 @@ class Victim < ActiveRecord::Base
 
   def self.import(file, campaign_id)
     CSV.foreach(file.path, headers: true) do |row|
-      Victim.create! {campaign_id: campaign_id, email_address: row['Email Address'], firstname: row['First Name'], lastname: row['Last Name']}
+      Victim.create!(campaign_id: campaign_id, email_address: row['Email Address'], firstname: row['First Name'], lastname: row['Last Name'])
     end
   end
 
