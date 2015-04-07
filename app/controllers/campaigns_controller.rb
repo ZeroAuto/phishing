@@ -148,6 +148,9 @@ class CampaignsController < ApplicationController
 			format.js
 		end
 	end
+
+	def import_victims
+	end
 	
 	def campaign_time_zone
 		@campaign_time_zone = Campaign.find(params[:id]).time_zone
