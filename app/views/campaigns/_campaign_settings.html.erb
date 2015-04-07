@@ -100,6 +100,19 @@
                   class: 'form-control') %>
         </div>
       </div>
+
+      <div class="row top-buffer">
+        <div class="col-xs-3">
+          <p>Import Emails from CSV</p>
+        </div>
+        <div class="col-xs-1">
+          <span class="glyphicon glyphicon-question-sign" title="Insert email addresses in a list or csv form"></span>
+        </div>
+        <div class="col-xs-8">
+          <%= f.file_field :file %>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
