@@ -18,7 +18,12 @@ class PhishingFrenzyMailer < ActionMailer::Base
 
     if method==ACTIVE
       uid = victim_uid(@target, campaign_id)
-      @url = "#{phishing_url}?uid=#{uid}"
+      if @campaign.campaign_settings.ssl == true
+        @url = "https://#{phishing_url}?uid=#{uid}"
+      else
+        @url = "#{phishing_url}?uid=#{uid}"
+      end
+
       @image_url = PhishingFramework::SITE_URL + "/reports/image/#{uid}.png"
       @fqdn_image_url = @campaign.campaign_settings.fqdn + "/reports/image/#{uid}.png"
       bait = mail(

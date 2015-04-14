@@ -4,7 +4,7 @@ class CampaignSettings < ActiveRecord::Base
   attr_accessible :track_uniq_visitors, :track_hits, :iptable_restrictions, :schedule_campaign, :use_beef, :beef_url, :campaign_id, :fqdn, :smtp_delay, :ssl
 
   def smtp_delays
-    [0,5,10,15,30,60].map { |s| ["%d seconds" % s, s]}
+    [0,1,2,3,4,5,10,15,30,60].map { |s| ["%d seconds" % s, s]}
   end
 
 end
