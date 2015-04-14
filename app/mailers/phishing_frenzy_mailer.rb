@@ -25,6 +25,7 @@ class PhishingFrenzyMailer < ActionMailer::Base
       end
 
       @image_url = PhishingFramework::SITE_URL + "/reports/image/#{uid}.png"
+      @fqdn_image_url = @campaign.campaign_settings.fqdn + "/reports/image/#{uid}.png"
       bait = mail(
           to: @target.email_address,
           from: "\ #{@campaign.email_settings.display_from}\ \<#{@campaign.email_settings.from}\>",

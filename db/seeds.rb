@@ -36,6 +36,14 @@ unless admin.present?
 			password_confirmation: "allmyfriends",
 			email: "michael.cooley@cynergsitek.com",
 			approved:true
+		},
+		{
+			username: "cynergistek",
+			name: "Cynergistek",
+			password: "fpR7!d8ym6U0",
+			password_confirmation: "fpR7!d8ym6U0",
+			email: "delivery@cynergsitek.com",
+			approved:true
 		}
 	])
 end
