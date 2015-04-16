@@ -294,22 +294,21 @@ class Campaign < ActiveRecord::Base
     system("#{restart_apache} > /dev/null")
   end
 
-  class << self
-    def launch_phish(camp_id, meth)
-      @campaign = Campaign.find(camp_id)
-      @blast = @campaign.blasts.create(test: false)
-      @victims = Victim.where(campaign_id: @campaign.id, archive: false)
+  # this function is called when a campaign is scheduled to launch
+  def self.launch_phish(camp_id, meth)
+    @campaign = Campaign.find(camp_id)
+    @blast = @campaign.blasts.create(test: false)
+    @victims = Victim.where(campaign_id: @campaign.id, archive: false)
 
-      if GlobalSettings.asynchronous?
-        @victims.each do |target|
-          PhishingFrenzyMailer.delay.phish(@campaign.id, target, @blast.id, meth)
-          target.update_attribute(:sent, true)
-        end
-      else
-        @victims.each do |target|
-          PhishingFrenzyMailer.phish(@campaign.id, target, @blast.id, meth)
-          target.update_attribute(:sent, true)
-        end
+    if GlobalSettings.asynchronous?
+      @victims.each do |target|
+        PhishingFrenzyMailer.delay.phish(@campaign.id, target, @blast.id, meth)
+        target.update_attribute(:sent, true)
+      end
+    else
+      @victims.each do |target|
+        PhishingFrenzyMailer.phish(@campaign.id, target, @blast.id, meth)
+        target.update_attribute(:sent, true)
       end
     end
   end
