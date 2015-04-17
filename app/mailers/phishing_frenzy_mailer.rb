@@ -3,6 +3,7 @@ class PhishingFrenzyMailer < ActionMailer::Base
   PREVIEW = 0
   ACTIVE = 1
 
+  # this is the method
   def phish(campaign_id, target, blast_id, method=PREVIEW)
     @campaign = Campaign.find(campaign_id)
     @display_from = @campaign.email_settings.display_from
